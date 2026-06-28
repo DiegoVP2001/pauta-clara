@@ -8,7 +8,7 @@ Para hosting estatico, configurar `public/` como directorio de publicacion. La e
 
 - Repositorio remoto: `https://github.com/DiegoVP2001/pauta-clara`
 - Rama principal: `main`
-- Commit publicado verificado: `6c668c8` (`Publish Pauta Clara planner`)
+- Commit publicado verificado: `564d24b` (`Add goals onboarding and print header`)
 - Estado local verificado: `main` alineada con `origin/main`, sin cambios pendientes.
 
 ## Archivos publicables
