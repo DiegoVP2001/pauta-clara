@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pauta-clara-public-v1';
+const CACHE_NAME = 'pauta-clara-public-v2';
 
 const PUBLIC_ASSETS = [
   './',
