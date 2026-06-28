@@ -1089,6 +1089,83 @@
       box-shadow: 0 14px 24px rgba(109, 40, 217, 0.24);
     }
 
+    .install-app-banner {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      z-index: 1800;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: min(520px, calc(100% - 36px));
+      margin-left: auto;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      color: var(--ink);
+    }
+
+    .install-app-banner.show {
+      display: flex;
+    }
+
+    .install-app-copy {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .install-app-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 800;
+    }
+
+    .install-app-text {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .install-app-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .install-app-primary,
+    .install-app-dismiss {
+      min-height: 40px;
+      border: 0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 800;
+    }
+
+    .install-app-primary {
+      padding: 0 14px;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(109, 40, 217, 0.18);
+    }
+
+    .install-app-dismiss {
+      width: 40px;
+      background: var(--input-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
     /* Header Actions & Patient Input */
     .header-actions {
       margin-top: 12px;
@@ -1770,6 +1847,12 @@
       .target-modal-actions button {
         flex: 1 1 160px;
       }
+      .install-app-banner {
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+        width: auto;
+      }
     }
 
     @media (max-width: 640px) {
@@ -1883,6 +1966,16 @@
       }
       .modal-footer {
         padding: 14px 18px;
+      }
+      .install-app-banner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .install-app-actions {
+        width: 100%;
+      }
+      .install-app-primary {
+        flex: 1;
       }
     }
 
@@ -2056,6 +2149,7 @@
       .print-btn,
       .modal-close-action-btn,
       .move-badge-handle,
+      .install-app-banner,
       .all-completed-alert {
         display: none !important;
       }
@@ -2387,7 +2481,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_carb')">−</button>
-                <input type="number" id="target_carb" min="0" max="30" value="7" onchange="saveTargets()">
+                <input type="number" id="target_carb" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_carb')">+</button>
               </div>
             </div>
@@ -2403,7 +2497,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_fruit')">−</button>
-                <input type="number" id="target_fruit" min="0" max="30" value="3" onchange="saveTargets()">
+                <input type="number" id="target_fruit" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_fruit')">+</button>
               </div>
             </div>
@@ -2419,7 +2513,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_veg')">−</button>
-                <input type="number" id="target_veg" min="0" max="30" value="2" onchange="saveTargets()">
+                <input type="number" id="target_veg" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_veg')">+</button>
               </div>
             </div>
@@ -2435,7 +2529,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_meat')">−</button>
-                <input type="number" id="target_meat" min="0" max="30" value="8" onchange="saveTargets()">
+                <input type="number" id="target_meat" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_meat')">+</button>
               </div>
             </div>
@@ -2451,7 +2545,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_milk')">−</button>
-                <input type="number" id="target_milk" min="0" max="30" value="3" onchange="saveTargets()">
+                <input type="number" id="target_milk" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_milk')">+</button>
               </div>
             </div>
@@ -2467,7 +2561,7 @@
               </div>
               <div class="number-stepper">
                 <button type="button" onclick="decrement('target_fat')">−</button>
-                <input type="number" id="target_fat" min="0" max="30" value="3" onchange="saveTargets()">
+                <input type="number" id="target_fat" min="0" max="30" value="0" onchange="saveTargets()">
                 <button type="button" onclick="increment('target_fat')">+</button>
               </div>
             </div>
@@ -2701,6 +2795,17 @@
     </div>
   </div>
 
+  <div id="installAppBanner" class="install-app-banner" role="dialog" aria-live="polite" aria-label="Instalar Pauta Clara">
+    <div class="install-app-copy">
+      <span class="install-app-title">Instala Pauta Clara</span>
+      <span id="installAppText" class="install-app-text">Guarda la webapp en tu pantalla de inicio para abrirla como app.</span>
+    </div>
+    <div class="install-app-actions">
+      <button id="installAppButton" class="install-app-primary" type="button" onclick="installApp()">Instalar</button>
+      <button class="install-app-dismiss" type="button" onclick="dismissInstallBanner()" aria-label="Ocultar aviso">&times;</button>
+    </div>
+  </div>
+
   <!-- Modal inicial y edición de objetivos -->
   <div id="targetsModal" class="modal-backdrop" onclick="closeTargetsModal(event)">
     <div class="modal-card target-onboarding-card" onclick="event.stopPropagation()">
@@ -2725,7 +2830,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_carb', -1)">−</button>
-              <input type="number" id="modal_target_carb" min="0" max="30" value="7">
+              <input type="number" id="modal_target_carb" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_carb', 1)">+</button>
             </div>
           </div>
@@ -2740,7 +2845,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_fruit', -1)">−</button>
-              <input type="number" id="modal_target_fruit" min="0" max="30" value="3">
+              <input type="number" id="modal_target_fruit" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_fruit', 1)">+</button>
             </div>
           </div>
@@ -2755,7 +2860,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_veg', -1)">−</button>
-              <input type="number" id="modal_target_veg" min="0" max="30" value="2">
+              <input type="number" id="modal_target_veg" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_veg', 1)">+</button>
             </div>
           </div>
@@ -2770,7 +2875,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_meat', -1)">−</button>
-              <input type="number" id="modal_target_meat" min="0" max="30" value="8">
+              <input type="number" id="modal_target_meat" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_meat', 1)">+</button>
             </div>
           </div>
@@ -2785,7 +2890,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_milk', -1)">−</button>
-              <input type="number" id="modal_target_milk" min="0" max="30" value="3">
+              <input type="number" id="modal_target_milk" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_milk', 1)">+</button>
             </div>
           </div>
@@ -2800,7 +2905,7 @@
             </div>
             <div class="number-stepper">
               <button type="button" onclick="adjustModalTarget('modal_target_fat', -1)">−</button>
-              <input type="number" id="modal_target_fat" min="0" max="30" value="3">
+              <input type="number" id="modal_target_fat" min="0" max="30" value="0">
               <button type="button" onclick="adjustModalTarget('modal_target_fat', 1)">+</button>
             </div>
           </div>
@@ -2836,15 +2941,16 @@
     const TARGETS_STORAGE_KEY = 'nutri_diet_targets';
     const DIARY_STORAGE_KEY = 'nutri_diet_diary';
     const WATER_STORAGE_KEY = 'nutri_diet_water';
+    const INSTALL_PROMPT_DISMISSED_KEY = 'nutri_install_prompt_dismissed';
 
     // Default Targets
     const DEFAULT_TARGETS = {
-      target_carb: 7,
-      target_fruit: 3,
-      target_veg: 2,
-      target_meat: 8,
-      target_milk: 3,
-      target_fat: 3,
+      target_carb: 0,
+      target_fruit: 0,
+      target_veg: 0,
+      target_meat: 0,
+      target_milk: 0,
+      target_fat: 0,
       target_water: 2000
     };
 
@@ -3034,6 +3140,7 @@
     };
     let exerciseHours = 0;
     let targetOnboardingRequired = false;
+    let deferredInstallPrompt = null;
 
     // Theme Switch Logic
     function toggleTheme() {
@@ -3090,6 +3197,7 @@
       if (targetOnboardingRequired) {
         window.setTimeout(() => openTargetsModal('onboarding'), 80);
       }
+      updateInstallBanner();
 
       // Set current date for printing
       const dateEl = document.getElementById('printDate');
@@ -3106,6 +3214,85 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
+    }
+
+    function setupInstallPrompt() {
+      window.addEventListener('resize', updateInstallBanner);
+
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        updateInstallBanner();
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        localStorage.setItem(INSTALL_PROMPT_DISMISSED_KEY, 'true');
+        updateInstallBanner();
+      });
+
+      const standaloneQuery = window.matchMedia('(display-mode: standalone)');
+      if (standaloneQuery.addEventListener) {
+        standaloneQuery.addEventListener('change', updateInstallBanner);
+      } else if (standaloneQuery.addListener) {
+        standaloneQuery.addListener(updateInstallBanner);
+      }
+    }
+
+    function isMobileViewport() {
+      return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
+    }
+
+    function isStandaloneApp() {
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+
+    function isIOSDevice() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent) ||
+        (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+    }
+
+    function updateInstallBanner() {
+      const banner = document.getElementById('installAppBanner');
+      const text = document.getElementById('installAppText');
+      const button = document.getElementById('installAppButton');
+      if (!banner || !text || !button) return;
+
+      const wasDismissed = localStorage.getItem(INSTALL_PROMPT_DISMISSED_KEY) === 'true';
+      const canShow = isMobileViewport() && !isStandaloneApp() && !wasDismissed && (deferredInstallPrompt || isIOSDevice());
+
+      if (!canShow) {
+        banner.classList.remove('show');
+        return;
+      }
+
+      if (isIOSDevice() && !deferredInstallPrompt) {
+        text.textContent = 'En iPhone: toca Compartir y luego Agregar a pantalla de inicio.';
+        button.textContent = 'Ver indicación';
+      } else {
+        text.textContent = 'Guarda la webapp en tu pantalla de inicio para abrirla como app.';
+        button.textContent = 'Instalar';
+      }
+
+      banner.classList.add('show');
+    }
+
+    async function installApp() {
+      if (!deferredInstallPrompt) {
+        updateInstallBanner();
+        return;
+      }
+
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      localStorage.setItem(INSTALL_PROMPT_DISMISSED_KEY, 'true');
+      updateInstallBanner();
+    }
+
+    function dismissInstallBanner() {
+      localStorage.setItem(INSTALL_PROMPT_DISMISSED_KEY, 'true');
+      updateInstallBanner();
     }
 
     // GENERALIZATION PATIENT NAME LOGIC
@@ -3792,6 +3979,7 @@
 
     // Init on load
     setupAddMenuDismiss();
+    setupInstallPrompt();
     init();
     registerServiceWorker();
   </script>
