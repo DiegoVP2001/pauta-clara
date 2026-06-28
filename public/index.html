@@ -1030,6 +1030,65 @@
       border-color: var(--accent);
     }
 
+    .target-onboarding-card {
+      width: min(720px, calc(100% - 32px));
+      max-height: min(88vh, 760px);
+    }
+
+    .target-onboarding-intro {
+      color: var(--muted);
+      font-size: 0.94rem;
+      margin-bottom: 18px;
+    }
+
+    .target-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .target-modal-grid .target-input-card {
+      min-height: 0;
+    }
+
+    .target-modal-footer {
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .target-modal-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .target-modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .modal-primary-action-btn {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      padding: 11px 22px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--accent);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 10px 20px rgba(109, 40, 217, 0.18);
+    }
+
+    .modal-primary-action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(109, 40, 217, 0.24);
+    }
+
     /* Header Actions & Patient Input */
     .header-actions {
       margin-top: 12px;
@@ -1698,6 +1757,19 @@
       .modal-card {
         max-height: calc(100vh - 32px);
       }
+      .target-modal-grid {
+        grid-template-columns: 1fr;
+      }
+      .target-modal-footer {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .target-modal-actions {
+        width: 100%;
+      }
+      .target-modal-actions button {
+        flex: 1 1 160px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -1958,8 +2030,8 @@
     /* Print Stylesheet integration */
     @media print {
       @page {
-        size: 8.5in 13in;
-        margin: 8mm 12mm;
+        size: A4 portrait;
+        margin: 10mm 12mm;
       }
 
       body {
@@ -1981,6 +2053,9 @@
       .sidebar-tabs,
       .modal-backdrop,
       .theme-toggle-btn,
+      .print-btn,
+      .modal-close-action-btn,
+      .move-badge-handle,
       .all-completed-alert {
         display: none !important;
       }
@@ -2024,6 +2099,23 @@
       .panel-title {
         font-size: 1rem !important;
         margin-bottom: 10px !important;
+        color: #0f172a !important;
+      }
+
+      .group-name,
+      .meal-title,
+      .score-label-info,
+      .score-counts,
+      .water-input-row,
+      .water-target-label,
+      #waterDetail {
+        color: #0f172a !important;
+      }
+
+      .group-ref-tag,
+      .slot-counter,
+      .empty-slot-message {
+        color: #475569 !important;
       }
 
       .target-input-card {
@@ -2167,6 +2259,7 @@
 
       .water-value {
         font-size: 1.1rem !important;
+        color: #0f172a !important;
       }
 
       #waterDetail {
@@ -2174,23 +2267,42 @@
       }
 
       .print-header {
-        display: block !important;
-        margin-bottom: 16px;
+        display: flex !important;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
         border-bottom: 2px solid #0f172a;
-        padding-bottom: 8px;
+        padding-bottom: 10px;
+        page-break-inside: avoid;
+      }
+
+      .print-header-copy {
+        min-width: 0;
+        padding-right: 8px;
       }
       
       .print-header h1 {
         font-family: 'Outfit', sans-serif;
-        font-size: 1.6rem !important;
+        font-size: 1.35rem !important;
         color: #0f172a;
         font-weight: 800;
-        margin-bottom: 2px;
+        margin: 0 0 3px;
       }
 
       .print-header p {
         color: #475569;
         font-size: 0.85rem !important;
+        margin: 0;
+      }
+
+      .print-brand-logo {
+        display: block !important;
+        width: 108px;
+        max-width: 28%;
+        height: auto;
+        object-fit: contain;
+        flex: 0 0 auto;
       }
     }
 
@@ -2203,8 +2315,11 @@
 
   <!-- Hidden print-only header -->
   <div class="print-header">
-    <h1>Planificación de Porciones y Comidas</h1>
-    <p>Paciente: <strong id="printPatientName">____________________</strong> &nbsp;|&nbsp; Fecha: <span id="printDate"></span></p>
+    <div class="print-header-copy">
+      <h1>Planificación de Porciones y Comidas</h1>
+      <p>Paciente: <strong id="printPatientName">____________________</strong> &nbsp;|&nbsp; Fecha: <span id="printDate"></span></p>
+    </div>
+    <img class="print-brand-logo" src="pauta_clara_opcion_6_logo_principal_transparente.png" alt="Pauta Clara">
   </div>
 
   <header>
@@ -2381,6 +2496,7 @@
         <div class="panel">
           <div class="panel-title">
             <span>📊 Cumplimiento</span>
+            <button type="button" class="modal-close-action-btn" onclick="openTargetsModal('edit')">Editar objetivos</button>
           </div>
           <div class="scoreboard-grid" id="scoreboardGrid">
             <!-- Rows will be rendered dynamically by JS -->
@@ -2581,6 +2697,136 @@
       </div>
       <div class="modal-body move-modal-body" id="movePortionModalBody">
         <!-- Dynamic active meals list -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal inicial y edición de objetivos -->
+  <div id="targetsModal" class="modal-backdrop" onclick="closeTargetsModal(event)">
+    <div class="modal-card target-onboarding-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="targetsModalTitle">
+          <span>🎯</span> Define tus objetivos
+        </h3>
+        <button id="targetsModalCloseBtn" class="modal-close-btn" onclick="closeTargetsModal()" type="button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="target-onboarding-intro">
+          Ingresa las porciones objetivo del día para que la pestaña Cumplimiento compare tu pizarra con tus metas.
+        </p>
+        <div class="target-modal-grid">
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-carb">🌾</div>
+              <div class="group-details">
+                <span class="group-name">Carbohidratos</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_carb', -1)">−</button>
+              <input type="number" id="modal_target_carb" min="0" max="30" value="7">
+              <button type="button" onclick="adjustModalTarget('modal_target_carb', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-fruit">🍎</div>
+              <div class="group-details">
+                <span class="group-name">Frutas</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_fruit', -1)">−</button>
+              <input type="number" id="modal_target_fruit" min="0" max="30" value="3">
+              <button type="button" onclick="adjustModalTarget('modal_target_fruit', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-veg">🥗</div>
+              <div class="group-details">
+                <span class="group-name">Verduras</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_veg', -1)">−</button>
+              <input type="number" id="modal_target_veg" min="0" max="30" value="2">
+              <button type="button" onclick="adjustModalTarget('modal_target_veg', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-meat">🍗</div>
+              <div class="group-details">
+                <span class="group-name">Carnes y Legumbres</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_meat', -1)">−</button>
+              <input type="number" id="modal_target_meat" min="0" max="30" value="8">
+              <button type="button" onclick="adjustModalTarget('modal_target_meat', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-milk">🥛</div>
+              <div class="group-details">
+                <span class="group-name">Lácteos</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_milk', -1)">−</button>
+              <input type="number" id="modal_target_milk" min="0" max="30" value="3">
+              <button type="button" onclick="adjustModalTarget('modal_target_milk', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-fat">🥑</div>
+              <div class="group-details">
+                <span class="group-name">Aceites y Grasas</span>
+                <span class="group-ref-tag">Porciones al día</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_fat', -1)">−</button>
+              <input type="number" id="modal_target_fat" min="0" max="30" value="3">
+              <button type="button" onclick="adjustModalTarget('modal_target_fat', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="target-input-card">
+            <div class="group-info">
+              <div class="group-icon icon-water">💧</div>
+              <div class="group-details">
+                <span class="group-name">Agua Base (ml)</span>
+                <span class="group-ref-tag">Antes de ejercicio</span>
+              </div>
+            </div>
+            <div class="number-stepper">
+              <button type="button" onclick="adjustModalTarget('modal_target_water', -250, 1000, 6000)">−</button>
+              <input type="number" id="modal_target_water" min="1000" max="6000" step="250" value="2000">
+              <button type="button" onclick="adjustModalTarget('modal_target_water', 250, 1000, 6000)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer target-modal-footer">
+        <span class="target-modal-note">Estos datos quedan guardados solo en este navegador.</span>
+        <div class="target-modal-actions">
+          <button id="targetsModalCancelBtn" type="button" class="modal-close-action-btn" onclick="closeTargetsModal()">Cancelar</button>
+          <button type="button" class="modal-primary-action-btn" onclick="saveTargetsFromModal()">Guardar objetivos</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2787,6 +3033,7 @@
       post_workout: []
     };
     let exerciseHours = 0;
+    let targetOnboardingRequired = false;
 
     // Theme Switch Logic
     function toggleTheme() {
@@ -2826,16 +3073,23 @@
       document.getElementById('patientNameInput').value = savedName;
       updatePatientName(savedName);
 
+      const hasSavedTargets = !!localStorage.getItem(TARGETS_STORAGE_KEY);
+      targetOnboardingRequired = !hasSavedTargets;
+
       loadTargets();
       loadDiary();
       loadWater();
       renderWaterDisplay();
       
-      // Default to targets tab in sidebar
-      switchSidebarTab('targets');
+      // Default to compliance tab in sidebar
+      switchSidebarTab('compliance');
 
       renderScoreboard();
       renderDiaryGrid();
+
+      if (targetOnboardingRequired) {
+        window.setTimeout(() => openTargetsModal('onboarding'), 80);
+      }
 
       // Set current date for printing
       const dateEl = document.getElementById('printDate');
@@ -2877,6 +3131,69 @@
       // Show selected tab content
       const tabContent = document.getElementById(`tab_${tabId}`);
       if (tabContent) tabContent.classList.add('active');
+    }
+
+    const TARGET_MODAL_MAP = {
+      modal_target_carb: 'target_carb',
+      modal_target_fruit: 'target_fruit',
+      modal_target_veg: 'target_veg',
+      modal_target_meat: 'target_meat',
+      modal_target_milk: 'target_milk',
+      modal_target_fat: 'target_fat',
+      modal_target_water: 'target_water'
+    };
+
+    function openTargetsModal(mode = 'edit') {
+      const modal = document.getElementById('targetsModal');
+      const title = document.getElementById('targetsModalTitle');
+      const closeBtn = document.getElementById('targetsModalCloseBtn');
+      const cancelBtn = document.getElementById('targetsModalCancelBtn');
+      targetOnboardingRequired = mode === 'onboarding';
+
+      Object.entries(TARGET_MODAL_MAP).forEach(([modalId, targetId]) => {
+        const modalInput = document.getElementById(modalId);
+        if (modalInput) modalInput.value = targets[targetId];
+      });
+
+      if (title) {
+        title.innerHTML = targetOnboardingRequired
+          ? '<span>🎯</span> Define tus objetivos del día'
+          : '<span>🎯</span> Editar objetivos';
+      }
+
+      if (closeBtn) closeBtn.style.display = targetOnboardingRequired ? 'none' : '';
+      if (cancelBtn) cancelBtn.style.display = targetOnboardingRequired ? 'none' : '';
+      if (modal) modal.classList.add('open');
+    }
+
+    function closeTargetsModal(event) {
+      if (event && event.target !== document.getElementById('targetsModal')) return;
+      if (targetOnboardingRequired) return;
+      document.getElementById('targetsModal').classList.remove('open');
+    }
+
+    function adjustModalTarget(inputId, step, min = 0, max = 30) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+
+      const current = parseInt(input.value) || 0;
+      const next = Math.min(max, Math.max(min, current + step));
+      input.value = next;
+    }
+
+    function saveTargetsFromModal() {
+      Object.entries(TARGET_MODAL_MAP).forEach(([modalId, targetId]) => {
+        const modalInput = document.getElementById(modalId);
+        const targetInput = document.getElementById(targetId);
+        if (modalInput && targetInput) {
+          targetInput.value = modalInput.value;
+        }
+      });
+
+      targetOnboardingRequired = false;
+      saveTargets();
+      switchSidebarTab('compliance');
+      document.getElementById('targetsModal').classList.remove('open');
     }
 
     // TARGET CONTROL LOGIC

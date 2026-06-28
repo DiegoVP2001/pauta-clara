@@ -1,6 +1,15 @@
 # Publicacion minima de Pauta Clara
 
-La version publica minima esta preparada en `public/`. Para hosting estatico, configurar esa carpeta como directorio de publicacion. La entrada publica es `public/index.html`.
+La version publica minima esta preparada en `public/` y publicada en el repositorio GitHub `DiegoVP2001/pauta-clara`.
+
+Para hosting estatico, configurar `public/` como directorio de publicacion. La entrada publica es `public/index.html`.
+
+## Estado de publicacion
+
+- Repositorio remoto: `https://github.com/DiegoVP2001/pauta-clara`
+- Rama principal: `main`
+- Commit publicado verificado: `6c668c8` (`Publish Pauta Clara planner`)
+- Estado local verificado: `main` alineada con `origin/main`, sin cambios pendientes.
 
 ## Archivos publicables
 
