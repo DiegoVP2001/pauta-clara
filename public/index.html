@@ -1133,28 +1133,14 @@
       line-height: 1.35;
     }
 
-    .install-app-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 0 0 auto;
-    }
-
-    .install-app-primary,
     .install-app-dismiss {
+      flex: 0 0 auto;
       min-height: 40px;
       border: 0;
       border-radius: var(--radius-md);
       cursor: pointer;
       font-family: inherit;
       font-weight: 800;
-    }
-
-    .install-app-primary {
-      padding: 0 14px;
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(109, 40, 217, 0.18);
     }
 
     .install-app-dismiss {
@@ -1970,12 +1956,6 @@
       .install-app-banner {
         align-items: flex-start;
         flex-direction: column;
-      }
-      .install-app-actions {
-        width: 100%;
-      }
-      .install-app-primary {
-        flex: 1;
       }
     }
 
@@ -2800,10 +2780,7 @@
       <span class="install-app-title">Instala Pauta Clara</span>
       <span id="installAppText" class="install-app-text">Guarda la webapp en tu pantalla de inicio para abrirla como app.</span>
     </div>
-    <div class="install-app-actions">
-      <button id="installAppButton" class="install-app-primary" type="button" onclick="installApp()">Instalar</button>
-      <button class="install-app-dismiss" type="button" onclick="dismissInstallBanner()" aria-label="Ocultar aviso">&times;</button>
-    </div>
+    <button class="install-app-dismiss" type="button" onclick="dismissInstallBanner()" aria-label="Ocultar aviso">&times;</button>
   </div>
 
   <!-- Modal inicial y edición de objetivos -->
@@ -3259,8 +3236,7 @@
     function updateInstallBanner() {
       const banner = document.getElementById('installAppBanner');
       const text = document.getElementById('installAppText');
-      const button = document.getElementById('installAppButton');
-      if (!banner || !text || !button) return;
+      if (!banner || !text) return;
 
       const wasDismissed = localStorage.getItem(INSTALL_PROMPT_DISMISSED_KEY) === 'true';
       const canShow = isMobileViewport() && !isStandaloneApp() && !wasDismissed;
@@ -3271,39 +3247,16 @@
       }
 
       if (deferredInstallPrompt) {
-        text.textContent = 'Guarda la webapp en tu pantalla de inicio para abrirla como app.';
-        button.textContent = 'Instalar';
+        text.textContent = 'Chrome puede mostrar la opción Instalar app en el menú ⋮.';
       } else if (isIOSDevice()) {
         text.textContent = 'En iPhone: toca Compartir y luego Agregar a pantalla de inicio.';
-        button.textContent = 'Ver indicación';
       } else if (isAndroidDevice()) {
         text.textContent = 'En Chrome: abre el menú ⋮ y toca Instalar app o Agregar a pantalla principal.';
-        button.textContent = 'Cómo instalar';
       } else {
         text.textContent = 'Guarda la webapp en tu pantalla de inicio para abrirla como app.';
-        button.textContent = 'Ver indicación';
       }
 
       banner.classList.add('show');
-    }
-
-    async function installApp() {
-      if (!deferredInstallPrompt) {
-        const text = document.getElementById('installAppText');
-        if (text) {
-          text.textContent = isIOSDevice()
-            ? 'En iPhone: toca Compartir y luego Agregar a pantalla de inicio.'
-            : 'En Chrome: abre el menú ⋮ y toca Instalar app o Agregar a pantalla principal.';
-        }
-        updateInstallBanner();
-        return;
-      }
-
-      deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
-      deferredInstallPrompt = null;
-      localStorage.setItem(INSTALL_PROMPT_DISMISSED_KEY, 'true');
-      updateInstallBanner();
     }
 
     function dismissInstallBanner() {
