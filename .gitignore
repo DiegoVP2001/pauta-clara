@@ -1,0 +1,15 @@
+# Public release whitelist: publish only the minimal static app bundle.
+*
+!public/
+!public/**
+!.gitignore
+!PUBLICACION_MINIMA_PAUTA_CLARA.md
+
+# Keep local/private system files out even if the whitelist changes later.
+pauta/
+recursos/
+historial_versiones/
+.agents/
+.codex/
+.remember/
+prompts/

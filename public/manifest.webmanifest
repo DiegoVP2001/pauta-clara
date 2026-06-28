@@ -1,0 +1,28 @@
+{
+  "name": "Pauta Clara - Planificador de Porciones",
+  "short_name": "Pauta Clara",
+  "description": "Planificador visual de porciones, cumplimiento diario e hidratacion.",
+  "lang": "es-CL",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6d28d9",
+  "background_color": "#f8fafc",
+  "categories": ["health", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "icons/pauta-clara-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/pauta-clara-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

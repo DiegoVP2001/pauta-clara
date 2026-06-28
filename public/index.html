@@ -1,0 +1,3482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pauta Clara: planificador visual de porciones, cumplimiento diario e hidratación." />
+  <meta name="application-name" content="Pauta Clara" />
+  <meta name="theme-color" content="#6d28d9" id="themeColorMeta" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Pauta Clara" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-TileColor" content="#6d28d9" />
+  <title>Pauta Clara · Planificador de Porciones</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/pauta-clara-icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/pauta-clara-icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/pauta-clara-icon-180.png">
+  <link rel="shortcut icon" type="image/png" href="pauta_clara_logo_icono_app.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Premium Color System & Theme Variable Definitions */
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --border: rgba(226, 232, 240, 0.8);
+      --border-hover: rgba(203, 213, 225, 1);
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --input-bg: #f8fafc;
+      --accent: #6d28d9;
+      --accent-soft: #ede9fe;
+      
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.1);
+      
+      --radius-xl: 30px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+
+      /* Food Group Colors (Light Mode) */
+      --color-carb: #d97706;      /* Amber */
+      --bg-carb: #fef3c7;
+      --color-fruit: #db2777;     /* Rose */
+      --bg-fruit: #ffe4e6;
+      --color-veg: #059669;       /* Emerald */
+      --bg-veg: #d1fae5;
+      --color-meat: #7c3aed;      /* Violet */
+      --bg-meat: #ede9fe;
+      --color-milk: #2563eb;      /* Blue */
+      --bg-milk: #dbeafe;
+      --color-fat: #ca8a04;       /* Gold/Yellow */
+      --bg-fat: #fef9c3;
+      --color-water: #0891b2;     /* Cyan */
+      --bg-water: #ecfeff;
+      --color-free: #475569;      /* Slate */
+      --bg-free: #f1f5f9;
+      
+      --body-gradient: radial-gradient(circle at 5% 5%, rgba(217, 119, 6, 0.04), transparent 30%),
+                        radial-gradient(circle at 95% 5%, rgba(124, 58, 237, 0.06), transparent 30%),
+                        radial-gradient(circle at 50% 90%, rgba(5, 150, 105, 0.05), transparent 45%),
+                        var(--bg);
+    }
+
+    [data-theme="dark"] {
+      --bg: #090d16;
+      --card: #131a26;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(51, 65, 85, 0.4);
+      --border-hover: rgba(71, 85, 105, 1);
+      --glass-bg: rgba(19, 26, 38, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.05);
+      --input-bg: #1e293b;
+      --accent: #a78bfa;
+      --accent-soft: rgba(124, 58, 237, 0.15);
+      
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 24px 50px rgba(0, 0, 0, 0.45);
+
+      /* Food Group Colors (Dark Mode Ajustados) */
+      --color-carb: #fbbf24;
+      --bg-carb: rgba(217, 119, 6, 0.15);
+      --color-fruit: #f472b6;
+      --bg-fruit: rgba(219, 39, 119, 0.15);
+      --color-veg: #34d399;
+      --bg-veg: rgba(5, 150, 105, 0.15);
+      --color-meat: #a78bfa;
+      --bg-meat: rgba(124, 58, 237, 0.15);
+      --color-milk: #60a5fa;
+      --bg-milk: rgba(37, 99, 235, 0.15);
+      --color-fat: #facc15;
+      --bg-fat: rgba(202, 138, 4, 0.15);
+      --color-water: #22d3ee;
+      --bg-water: rgba(8, 145, 178, 0.15);
+      --color-free: #94a3b8;
+      --bg-free: #1e293b;
+      
+      --body-gradient: radial-gradient(circle at 5% 5%, rgba(217, 119, 6, 0.08), transparent 30%),
+                        radial-gradient(circle at 95% 5%, rgba(124, 58, 237, 0.1), transparent 30%),
+                        radial-gradient(circle at 50% 90%, rgba(5, 150, 105, 0.07), transparent 45%),
+                        var(--bg);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--body-gradient);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      touch-action: manipulation;
+    }
+
+    header {
+      padding: 40px 20px 20px;
+    }
+
+    .shell {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    /* Hero section styled with premium glassmorphism */
+    .hero {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-md);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Interactive light blob decoration inside hero */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(135deg, var(--color-meat), var(--color-water));
+      filter: blur(40px);
+      opacity: 0.15;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      box-shadow: 0 2px 10px rgba(124, 58, 237, 0.05);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    .hero-brand {
+      position: relative;
+      width: min(760px, 84vw);
+      aspect-ratio: 1251 / 460;
+      margin: 0 auto 8px;
+      overflow: hidden;
+    }
+
+    .hero-brand img {
+      display: block;
+      position: absolute;
+      top: -53.3%;
+      left: -12.6%;
+      width: 122.8%;
+      max-width: none;
+      height: auto;
+    }
+
+    .hero-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    main {
+      padding: 10px 0 60px;
+      display: grid;
+      grid-template-columns: 365px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* Left Sidebar: Metas Panel & Tabs */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 24px;
+    }
+
+    /* Premium Pill Tabs selector */
+    .sidebar-tabs {
+      display: flex;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 5px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar-tab-btn {
+      flex: 1;
+      padding: 11px 6px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .sidebar-tab-btn:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-tab-btn.active {
+      color: var(--ink);
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-content {
+      display: none;
+      animation: tabFadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Panel Card */
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: 26px;
+      transition: all 0.3s ease;
+    }
+
+    .panel:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-hover);
+    }
+
+    .panel-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .panel-subtitle {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: -16px;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .autosave-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 10px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(2px);
+      transition: all 0.3s ease;
+    }
+
+    .autosave-badge.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .form-group-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Target inputs styled as premium cards */
+    .target-input-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .target-input-card:hover {
+      background: var(--card);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    .target-input-card:focus-within {
+      background: var(--card);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .group-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .group-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Icons styles */
+    .icon-carb { background: var(--bg-carb); color: var(--color-carb); }
+    .icon-fruit { background: var(--bg-fruit); color: var(--color-fruit); }
+    .icon-veg { background: var(--bg-veg); color: var(--color-veg); }
+    .icon-meat { background: var(--bg-meat); color: var(--color-meat); }
+    .icon-milk { background: var(--bg-milk); color: var(--color-milk); }
+    .icon-fat { background: var(--bg-fat); color: var(--color-fat); }
+    .icon-water { background: var(--bg-water); color: var(--color-water); }
+
+    .group-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .group-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    .group-ref-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* Interactive Stepper Custom Controls */
+    .number-stepper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 999px;
+      padding: 3px;
+      border: 1px dashed var(--border);
+    }
+
+    [data-theme="dark"] .number-stepper {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .number-stepper button {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--card);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .number-stepper button:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .number-stepper button:active {
+      transform: scale(0.9);
+    }
+
+    .number-stepper input {
+      width: 42px;
+      text-align: center;
+      border: 0;
+      background: transparent;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink);
+      outline: none;
+      -moz-appearance: textfield;
+    }
+
+    .number-stepper input::-webkit-outer-spin-button,
+    .number-stepper input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Main Workspace Area */
+    .workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* References section */
+    .ref-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ref-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ref-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--card);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .ref-item:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ref-trigger {
+      width: 100%;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .ref-trigger:hover {
+      background: rgba(0, 0, 0, 0.01);
+    }
+
+    .ref-trigger .arrow-icon {
+      font-size: 0.75rem;
+      transition: transform 0.25s ease;
+      color: var(--muted);
+    }
+
+    .ref-trigger.active .arrow-icon {
+      transform: rotate(180deg);
+    }
+
+    .ref-content {
+      padding: 0 20px 18px;
+      display: none;
+      font-size: 0.88rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      line-height: 1.6;
+      animation: slideDown 0.2s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ref-content.open {
+      display: block;
+    }
+
+    .ref-list {
+      list-style-type: none;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ref-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .ref-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1.1rem;
+      top: -2px;
+    }
+
+    .more-details-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .more-details-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    /* Scoreboard Active Styles */
+    .scoreboard-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .score-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: all 0.25s ease;
+    }
+
+    .score-row:hover {
+      background: var(--card);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .score-row.completed {
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle shimmer animation on completed rows */
+    .score-row.completed::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(16, 185, 129, 0) 0%,
+        rgba(16, 185, 129, 0.05) 50%,
+        rgba(16, 185, 129, 0) 100%
+      );
+      transform: skewX(-25deg);
+      animation: completeGlow 4s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes completeGlow {
+      0% { left: -100%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
+    }
+
+    .score-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .score-label-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--ink);
+      min-width: 0;
+    }
+
+    .score-label-info span:last-child {
+      overflow-wrap: anywhere;
+    }
+
+    .score-meta-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .score-progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [data-theme="dark"] .score-progress-bar-container {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .score-progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+      position: relative;
+    }
+
+    /* Add shiny effect to progress bar */
+    .score-progress-bar::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: progressShine 2.5s infinite linear;
+    }
+
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .score-counts {
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .score-status-badge {
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      white-space: nowrap;
+    }
+
+    .badge-status-lack { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+    .badge-status-ok { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+    .badge-status-over { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+
+    /* Celebration alert visual */
+    .all-completed-alert {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-align: center;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      animation: alertPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+    }
+
+    [data-theme="dark"] .all-completed-alert {
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    @keyframes alertPop {
+      from { transform: scale(0.9) translateY(-10px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* Water Tracker Styles (Premium Hydration Widget) */
+    .water-tracker-container {
+      margin-top: 18px;
+      padding: 18px;
+      background: var(--bg-water);
+      border: 1px solid rgba(8, 145, 178, 0.15);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .water-tracker-container::before {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(8, 145, 178, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .water-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .water-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-water);
+    }
+
+    .water-input-row input {
+      width: 55px;
+      padding: 5px;
+      border: 1px solid rgba(8, 145, 178, 0.2);
+      background: var(--card);
+      color: var(--ink);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .water-input-row input:focus {
+      border-color: var(--color-water);
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.15);
+    }
+
+    .water-progress-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(8, 145, 178, 0.2);
+    }
+
+    .water-target-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--color-water);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .water-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--color-water);
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      width: min(540px, calc(100% - 32px));
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95) translateY(10px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: 0;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--ink);
+    }
+
+    .modal-body {
+      padding: 26px;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .modal-body h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      color: var(--ink);
+      margin-top: 18px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .modal-body h4:first-of-type {
+      margin-top: 0;
+    }
+
+    .modal-body ul {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .modal-body li {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .modal-body li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1.15rem;
+      top: -1px;
+    }
+
+    .modal-footer {
+      padding: 18px 26px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .modal-close-action-btn {
+      background: var(--input-bg);
+      color: var(--ink);
+      font-weight: 700;
+      padding: 11px 22px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .modal-close-action-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Header Actions & Patient Input */
+    .header-actions {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 16px;
+    }
+
+    .patient-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Customized Premium Signature-Style Input */
+    .patient-input {
+      border: 0;
+      border-bottom: 2px solid var(--border);
+      background: transparent;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      width: 250px;
+      outline: none;
+      transition: all 0.25s;
+    }
+
+    .patient-input:focus {
+      border-bottom-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .print-btn {
+      background: var(--accent);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 11px 24px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.92rem;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+    }
+
+    .print-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+    }
+
+    .print-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Premium Theme Toggle Switch Button */
+    .theme-toggle-btn {
+      position: absolute;
+      top: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+    }
+
+    .theme-toggle-btn:hover {
+      transform: rotate(30deg) scale(1.05);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-toggle-btn span {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Touch-friendly Move Badge Handle */
+    .move-badge-handle {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      min-height: 32px;
+      padding: 4px 6px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.32);
+      color: inherit;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+      user-select: none;
+      font: inherit;
+    }
+
+    .move-badge-handle:hover {
+      background: rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
+    [data-theme="dark"] .move-badge-handle:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .move-badge-handle:focus-visible,
+    .delete-portion-btn:focus-visible,
+    .add-portion-btn:focus-visible,
+    .add-menu-btn:focus-visible,
+    .sidebar-tab-btn:focus-visible,
+    .toggle-pill:focus-within,
+    .modal-close-action-btn:focus-visible {
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .move-action-btn:focus-visible,
+    .move-target-btn:focus-visible {
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .move-modal-card {
+      width: min(420px, calc(100% - 32px));
+    }
+
+    .move-modal-body {
+      padding: 16px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .move-section-title {
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .move-actions-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .move-action-btn,
+    .move-target-btn {
+      width: 100%;
+      min-height: 46px;
+      background: var(--input-bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 800;
+      transition: all 0.2s;
+    }
+
+    .move-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .move-target-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .move-target-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    .move-action-btn:hover:not(:disabled),
+    .move-target-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .move-action-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .move-empty-message {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    /* Option stages toggles area styling */
+    .stage-toggles-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .stage-toggles-container:hover {
+      border-color: var(--border-hover);
+    }
+
+    .toggles-title {
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--input-bg);
+      padding: 7px 15px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .toggle-pill input {
+      display: none;
+    }
+
+    .toggle-pill.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toggle-pill:hover:not(.active) {
+      border-color: var(--border-hover);
+      color: var(--ink);
+    }
+
+    /* Pizarra Day Slots Grid & Meal Cards */
+    .day-slots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .meal-slot-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .meal-slot-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-hover);
+    }
+
+    .meal-slot-card.drag-over {
+      border-color: var(--accent);
+      animation: pulseGlow 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        background: rgba(124, 58, 237, 0.02);
+        box-shadow: 0 0 0 2px var(--accent-soft);
+      }
+      100% {
+        background: rgba(124, 58, 237, 0.06);
+        box-shadow: 0 0 12px 4px var(--accent-soft);
+      }
+    }
+
+    .meal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .meal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meal-meta {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--input-bg);
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .portion-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
+      margin-bottom: 16px;
+      min-height: 60px;
+    }
+
+    /* Draggable portion badge redesigned as elegant handcrafted tag */
+    .portion-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 4px solid currentColor;
+    }
+
+    .portion-badge:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+
+    .portion-badge:active {
+      cursor: grabbing;
+      transform: scale(0.97) translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .portion-badge.dragging {
+      transform: rotate(-3deg) scale(0.96) !important;
+      opacity: 0.55;
+      box-shadow: var(--shadow-md) !important;
+    }
+
+    /* Soft styles variants */
+    .badge-carb { background: var(--bg-carb); color: var(--color-carb); }
+    .badge-fruit { background: var(--bg-fruit); color: var(--color-fruit); }
+    .badge-veg { background: var(--bg-veg); color: var(--color-veg); }
+    .badge-meat { background: var(--bg-meat); color: var(--color-meat); }
+    .badge-milk { background: var(--bg-milk); color: var(--color-milk); }
+    .badge-fat { background: var(--bg-fat); color: var(--color-fat); }
+
+    .badge-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .badge-qty-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: inherit;
+    }
+
+    .portion-qty-input {
+      width: 32px;
+      border: 0;
+      border-bottom: 1.5px dashed currentColor;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: inherit;
+      text-align: center;
+      outline: none;
+      -moz-appearance: textfield;
+      padding: 0;
+    }
+
+    .portion-qty-input::-webkit-outer-spin-button,
+    .portion-qty-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .portion-note-input {
+      border: 0;
+      border-bottom: 1.5px dashed rgba(0, 0, 0, 0.12);
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: inherit;
+      flex-grow: 1;
+      width: 80px;
+      min-width: 0;
+      padding: 2px 4px;
+      margin-left: 8px;
+      outline: none;
+    }
+
+    [data-theme="dark"] .portion-note-input {
+      border-bottom-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .portion-note-input::placeholder {
+      color: inherit;
+      opacity: 0.55;
+    }
+
+    .delete-portion-btn {
+      border: 0;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.25rem;
+      font-weight: 500;
+      min-width: 34px;
+      min-height: 34px;
+      padding: 0 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+      transition: all 0.2s;
+      margin-left: 8px;
+      border-radius: 10px;
+    }
+
+    .delete-portion-btn:hover {
+      opacity: 1;
+      transform: scale(1.15) rotate(90deg);
+    }
+
+    .add-portion-area {
+      position: relative;
+    }
+
+    /* Dashed Dropzone visual when empty slot */
+    .empty-drop-zone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.25s;
+    }
+
+    .meal-slot-card.drag-over .empty-drop-zone {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .add-portion-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border);
+      background: var(--input-bg);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+    }
+
+    .add-portion-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Add portions grid menu */
+    .add-menu {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 10px;
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      z-index: 10;
+      margin-bottom: 8px;
+      animation: menuPopup 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes menuPopup {
+      from { opacity: 0; transform: translateY(10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .add-menu.open {
+      display: grid;
+    }
+
+    .add-menu-btn {
+      border: 0;
+      padding: 10px 6px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s;
+      min-height: 54px;
+    }
+
+    .add-menu-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .add-menu-btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-carb { background: var(--bg-carb); color: var(--color-carb); }
+    .btn-fruit { background: var(--bg-fruit); color: var(--color-fruit); }
+    .btn-veg { background: var(--bg-veg); color: var(--color-veg); }
+    .btn-meat { background: var(--bg-meat); color: var(--color-meat); }
+    .btn-milk { background: var(--bg-milk); color: var(--color-milk); }
+    .btn-fat { background: var(--bg-fat); color: var(--color-fat); }
+
+    footer {
+      padding: 60px 0 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      transition: text-decoration 0.2s;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 980px) {
+      .shell {
+        width: min(100% - 24px, 760px);
+      }
+      main {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .sidebar {
+        position: static;
+        gap: 14px;
+      }
+      .sidebar-tabs {
+        position: sticky;
+        top: 8px;
+        z-index: 900;
+      }
+      .hero {
+        padding: 30px;
+      }
+      .theme-toggle-btn {
+        top: 24px;
+        right: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .day-slots-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .stage-toggles-container {
+        align-items: stretch;
+        gap: 10px;
+      }
+      .toggles-title {
+        width: 100%;
+      }
+      .toggle-pill {
+        min-height: 44px;
+        justify-content: center;
+      }
+      .meal-slot-card {
+        min-height: 0;
+        padding: 18px;
+      }
+      .modal-card {
+        max-height: calc(100vh - 32px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 24px 16px 12px;
+      }
+      main {
+        padding-bottom: 36px;
+      }
+      .hero {
+        border-radius: var(--radius-lg);
+        padding: 22px 18px;
+      }
+      .hero-brand {
+        width: min(280px, 74vw);
+        margin-bottom: 8px;
+      }
+      .hero-content {
+        padding-top: 54px;
+      }
+      .panel {
+        padding: 18px;
+        border-radius: var(--radius-lg);
+      }
+      .panel-title {
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 1.18rem;
+        line-height: 1.2;
+      }
+      .sidebar-tabs {
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 16px;
+      }
+      .sidebar-tab-btn {
+        min-width: max-content;
+        min-height: 44px;
+        padding: 10px 12px;
+        white-space: nowrap;
+      }
+      .target-input-card {
+        gap: 12px;
+      }
+      .group-info {
+        min-width: 0;
+      }
+      .group-icon {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+      }
+      .score-row {
+        padding: 12px;
+      }
+      .score-row-top {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .score-meta-info {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .water-input-row {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .water-input-row input {
+        min-width: 72px;
+        min-height: 40px;
+        font-size: 1rem;
+      }
+      .meal-header {
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .meal-title {
+        min-width: 0;
+        line-height: 1.2;
+      }
+      .meal-meta {
+        flex: 0 0 auto;
+      }
+      .empty-drop-zone {
+        min-height: 64px;
+        padding: 16px;
+      }
+      .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+      .patient-input-container {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .patient-input {
+        width: 100%;
+        flex-grow: 1;
+      }
+      .print-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .modal-header {
+        padding: 18px;
+      }
+      .modal-body {
+        padding: 18px;
+      }
+      .modal-footer {
+        padding: 14px 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shell {
+        width: calc(100% - 20px);
+      }
+      .lead {
+        font-size: 0.95rem;
+      }
+      .target-input-card {
+        padding: 12px;
+      }
+      .number-stepper button {
+        width: 36px;
+        height: 36px;
+      }
+      .number-stepper input {
+        width: 38px;
+        font-size: 1rem;
+      }
+      .portion-badge {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 42px;
+        align-items: center;
+        padding: 10px;
+        font-size: 0.82rem;
+        cursor: default;
+      }
+      .badge-left {
+        display: grid;
+        grid-template-columns: 38px auto minmax(0, 1fr);
+        gap: 8px;
+        width: 100%;
+      }
+      .move-badge-handle {
+        min-width: 38px;
+        min-height: 38px;
+      }
+      .portion-note-input {
+        font-size: 1rem;
+        margin-left: 0;
+        width: 100%;
+        min-height: 38px;
+      }
+      .portion-qty-input {
+        font-size: 1rem;
+        width: 34px;
+        min-height: 38px;
+      }
+      .delete-portion-btn {
+        min-width: 40px;
+        min-height: 40px;
+        margin-left: 0;
+        font-size: 1.35rem;
+      }
+
+      .add-menu {
+        grid-template-columns: repeat(2, 1fr);
+        position: static;
+        margin: 0 0 10px;
+        box-shadow: var(--shadow-md);
+      }
+      .add-menu-btn {
+        padding: 10px 6px;
+        font-size: 0.78rem;
+        min-height: 58px;
+      }
+      .move-actions-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-content {
+        padding-top: 46px;
+      }
+      .theme-toggle-btn {
+        top: 18px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+      }
+      .target-input-card {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 12px;
+      }
+      .number-stepper {
+        align-self: stretch;
+        justify-content: space-between;
+      }
+      .group-name {
+        font-size: 0.88rem;
+      }
+      .group-ref-tag {
+        font-size: 0.7rem;
+      }
+      .number-stepper button {
+        width: 40px;
+        height: 40px;
+      }
+      .number-stepper input {
+        width: 46px;
+        font-size: 1rem;
+      }
+      .score-status-badge {
+        font-size: 0.64rem;
+        padding: 4px 7px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .sidebar-tabs {
+        gap: 2px;
+        padding: 3px;
+      }
+      .sidebar-tab-btn {
+        font-size: 0.78rem;
+        padding: 9px 8px;
+        gap: 3px;
+      }
+      .panel {
+        padding: 14px;
+      }
+      .meal-slot-card {
+        padding: 14px;
+      }
+      .portion-badge {
+        grid-template-columns: 1fr;
+      }
+      .badge-left {
+        grid-template-columns: 38px auto minmax(92px, 1fr);
+      }
+      .delete-portion-btn {
+        justify-self: stretch;
+        width: 100%;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      [data-theme="dark"] .delete-portion-btn {
+        border-top-color: rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    /* Print Stylesheet integration */
+    @media print {
+      @page {
+        size: 8.5in 13in;
+        margin: 8mm 12mm;
+      }
+
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 9pt !important;
+        line-height: 1.3 !important;
+      }
+      
+      header, 
+      footer, 
+      .stage-toggles-container, 
+      .add-portion-area, 
+      .delete-portion-btn, 
+      .autosave-badge, 
+      .panel-subtitle, 
+      .number-stepper button, 
+      .references-section,
+      .sidebar-tabs,
+      .modal-backdrop,
+      .theme-toggle-btn,
+      .all-completed-alert {
+        display: none !important;
+      }
+
+      main {
+        display: grid !important;
+        grid-template-columns: 240px 1fr !important;
+        gap: 16px !important;
+        padding-top: 5px !important;
+        margin: 0 !important;
+      }
+
+      .sidebar {
+        position: static !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+      }
+
+      .tab-content {
+        display: none !important;
+      }
+      #tab_compliance.tab-content {
+        display: block !important;
+      }
+      #tab_targets.tab-content {
+        display: none !important;
+      }
+
+      .panel {
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        margin-bottom: 0 !important;
+        background: #fff !important;
+        padding: 12px !important;
+        border-radius: var(--radius-md) !important;
+        page-break-inside: avoid;
+      }
+
+      .panel-title {
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+      }
+
+      .target-input-card {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 2px 0 !important;
+      }
+
+      .number-stepper button {
+        display: none !important;
+      }
+
+      .number-stepper input {
+        border: none !important;
+        width: auto !important;
+        font-size: 0.95rem !important;
+        color: #000 !important;
+        text-align: right !important;
+        font-weight: 800 !important;
+      }
+
+      .day-slots-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        display: grid !important;
+      }
+
+      .meal-slot-card {
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        min-height: auto !important;
+        page-break-inside: avoid;
+        background: #fff !important;
+        padding: 10px !important;
+        border-radius: var(--radius-md) !important;
+      }
+
+      .meal-header {
+        margin-bottom: 6px !important;
+        padding-bottom: 4px !important;
+      }
+
+      .meal-title {
+        font-size: 0.9rem !important;
+      }
+
+      .portion-container {
+        min-height: auto !important;
+      }
+
+      .portion-badge {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        background: #fafaf9 !important;
+        color: #000 !important;
+        padding: 4px 8px !important;
+        font-size: 0.8rem !important;
+        margin-bottom: 4px !important;
+        border-radius: var(--radius-sm) !important;
+        border-left: 4px solid #000 !important;
+      }
+
+      .portion-note-input {
+        border: none !important;
+        border-bottom: 1px solid #94a3b8 !important;
+        color: #000 !important;
+        font-size: 0.8rem !important;
+        width: 120px !important;
+      }
+
+      .portion-qty-input {
+        border: none !important;
+        font-size: 0.8rem !important;
+        width: 20px !important;
+        text-align: center !important;
+      }
+
+      .portion-note-input::placeholder {
+        color: transparent !important;
+      }
+
+      .score-row {
+        background: #fff !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 4px 6px !important;
+        gap: 4px !important;
+      }
+
+      .score-label-info {
+        flex: 0 0 90px !important;
+        font-size: 0.72rem !important;
+        gap: 4px !important;
+      }
+
+      .score-progress-bar-container {
+        height: 5px !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+
+      .score-counts {
+        flex: 0 0 35px !important;
+        font-size: 0.72rem !important;
+      }
+
+      .score-status-badge {
+        flex: 0 0 55px !important;
+        font-size: 0.58rem !important;
+        padding: 2px 1px !important;
+      }
+
+      .water-tracker-container {
+        border: 1px solid #cbd5e1 !important;
+        background: #fff !important;
+        padding: 10px !important;
+        display: block !important;
+        margin-top: 8px !important;
+      }
+
+      .water-input-row {
+        font-size: 0.8rem !important;
+      }
+
+      .water-input-row input {
+        border: none !important;
+        width: auto !important;
+        background: transparent !important;
+        font-size: 0.8rem !important;
+        color: #000 !important;
+        text-align: right !important;
+        font-weight: 800 !important;
+        -moz-appearance: textfield !important;
+      }
+      
+      .water-progress-area {
+        margin-top: 6px !important;
+        align-items: flex-start !important;
+        border-top: none !important;
+        padding-top: 0 !important;
+      }
+
+      .water-value {
+        font-size: 1.1rem !important;
+      }
+
+      #waterDetail {
+        font-size: 0.75rem !important;
+      }
+
+      .print-header {
+        display: block !important;
+        margin-bottom: 16px;
+        border-bottom: 2px solid #0f172a;
+        padding-bottom: 8px;
+      }
+      
+      .print-header h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.6rem !important;
+        color: #0f172a;
+        font-weight: 800;
+        margin-bottom: 2px;
+      }
+
+      .print-header p {
+        color: #475569;
+        font-size: 0.85rem !important;
+      }
+    }
+
+    .print-header {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hidden print-only header -->
+  <div class="print-header">
+    <h1>Planificación de Porciones y Comidas</h1>
+    <p>Paciente: <strong id="printPatientName">____________________</strong> &nbsp;|&nbsp; Fecha: <span id="printDate"></span></p>
+  </div>
+
+  <header>
+    <div class="shell hero">
+      <!-- Dark/Light Theme Button Switcher -->
+      <button onclick="toggleTheme()" id="themeToggleBtn" class="theme-toggle-btn" title="Cambiar tema">
+        <span id="themeToggleIcon">🌙</span>
+      </button>
+
+      <section class="hero-content">
+        <div class="hero-brand">
+          <img src="pauta_clara_opcion_6_logo_principal_transparente.png" alt="Pauta Clara">
+        </div>
+        <p class="lead" style="margin-top: 8px;">
+          Define tus requerimientos nutricionales recomendados por tu nutricionista y distribuye de forma visual cada porción a lo largo del día para asegurar el cumplimiento de tu pauta.
+        </p>
+        
+        <div class="header-actions">
+          <div class="patient-input-container">
+            <span style="font-weight: 800; color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Paciente:</span>
+            <input type="text" id="patientNameInput" placeholder="Escribe el nombre aquí..." oninput="updatePatientName(this.value)" class="patient-input">
+          </div>
+          <button onclick="window.print()" class="print-btn">
+            🖨️ Imprimir / Guardar PDF
+          </button>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <main class="shell">
+    <!-- SIDEBAR: Metas de Porciones, Cumplimiento y Equivalencias organizadas en pestañas -->
+    <section class="sidebar">
+      <!-- Tabs Selector -->
+      <div class="sidebar-tabs">
+        <button class="sidebar-tab-btn active" onclick="switchSidebarTab('targets')">
+          <span>🎯</span> Metas
+        </button>
+        <button class="sidebar-tab-btn" onclick="switchSidebarTab('compliance')">
+          <span>📊</span> Cumplimiento
+        </button>
+        <button class="sidebar-tab-btn" onclick="switchSidebarTab('references')">
+          <span>📖</span> Referencias
+        </button>
+      </div>
+
+      <!-- Tab 1: Configuración de Metas -->
+      <div id="tab_targets" class="tab-content active">
+        <div class="panel">
+          <div class="panel-title">
+            <span>🎯 Porciones Objetivo</span>
+            <span class="autosave-badge" id="autosaveBadge">✓ Guardado</span>
+          </div>
+          <p class="panel-subtitle">Define tus metas diarias. Se guardarán de forma automática en tu navegador.</p>
+
+          <div class="form-group-grid">
+            <!-- Carbohidratos -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-carb">🌾</div>
+                <div class="group-details">
+                  <span class="group-name">Carbohidratos</span>
+                  <span class="group-ref-tag">Pan, arroz, avena...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_carb')">−</button>
+                <input type="number" id="target_carb" min="0" max="30" value="7" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_carb')">+</button>
+              </div>
+            </div>
+
+            <!-- Frutas -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-fruit">🍎</div>
+                <div class="group-details">
+                  <span class="group-name">Frutas</span>
+                  <span class="group-ref-tag">Manzana, plátano...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_fruit')">−</button>
+                <input type="number" id="target_fruit" min="0" max="30" value="3" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_fruit')">+</button>
+              </div>
+            </div>
+
+            <!-- Verduras -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-veg">🥗</div>
+                <div class="group-details">
+                  <span class="group-name">Verduras</span>
+                  <span class="group-ref-tag">Tomate, zanahoria...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_veg')">−</button>
+                <input type="number" id="target_veg" min="0" max="30" value="2" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_veg')">+</button>
+              </div>
+            </div>
+
+            <!-- Carnes y Legumbres -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-meat">🍗</div>
+                <div class="group-details">
+                  <span class="group-name">Carnes y Legumbres</span>
+                  <span class="group-ref-tag">Huevo, pollo, atún...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_meat')">−</button>
+                <input type="number" id="target_meat" min="0" max="30" value="8" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_meat')">+</button>
+              </div>
+            </div>
+
+            <!-- Lácteos -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-milk">🥛</div>
+                <div class="group-details">
+                  <span class="group-name">Lácteos</span>
+                  <span class="group-ref-tag">Leche, yogurt, quesillo...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_milk')">−</button>
+                <input type="number" id="target_milk" min="0" max="30" value="3" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_milk')">+</button>
+              </div>
+            </div>
+
+            <!-- Aceites y Grasas -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-fat">🥑</div>
+                <div class="group-details">
+                  <span class="group-name">Aceites y Grasas</span>
+                  <span class="group-ref-tag">Aceite, palta, nueces...</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrement('target_fat')">−</button>
+                <input type="number" id="target_fat" min="0" max="30" value="3" onchange="saveTargets()">
+                <button type="button" onclick="increment('target_fat')">+</button>
+              </div>
+            </div>
+
+            <!-- Agua Base -->
+            <div class="target-input-card">
+              <div class="group-info">
+                <div class="group-icon icon-water">💧</div>
+                <div class="group-details">
+                  <span class="group-name">Agua Base (ml)</span>
+                  <span class="group-ref-tag">Mínimo diario recomendado</span>
+                </div>
+              </div>
+              <div class="number-stepper">
+                <button type="button" onclick="decrementStep('target_water', 250)">−</button>
+                <input type="number" id="target_water" min="1000" max="6000" step="250" value="2000" onchange="saveTargets()">
+                <button type="button" onclick="incrementStep('target_water', 250)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Panel de Cumplimiento (Scoreboard + Water Tracker) -->
+      <div id="tab_compliance" class="tab-content">
+        <div class="panel">
+          <div class="panel-title">
+            <span>📊 Cumplimiento</span>
+          </div>
+          <div class="scoreboard-grid" id="scoreboardGrid">
+            <!-- Rows will be rendered dynamically by JS -->
+          </div>
+
+          <!-- Water Tracker -->
+          <div class="water-tracker-container">
+            <div class="water-inputs">
+              <div class="water-input-row">
+                <span>Ejercicio hoy (horas):</span>
+                <input type="number" id="workoutHours" min="0" max="8" step="0.5" value="0" onchange="updateWaterTarget()">
+              </div>
+              <div class="water-input-row" style="font-size:0.75rem; font-weight: 500; opacity: 0.8; margin-top:-2px;">
+                <span>+300 cc por hora de ejercicio</span>
+              </div>
+            </div>
+            <div class="water-progress-area">
+              <span class="water-target-label">Agua por consumir</span>
+              <div class="water-value" id="waterValue">2000 ml</div>
+              <div style="font-size:0.75rem; font-weight: 600; opacity: 0.8; margin-top:4px;" id="waterDetail">Recomendación: 2000 ml base</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Equivs / Referencias Colapsable -->
+      <div id="tab_references" class="tab-content references-section">
+        <section class="panel">
+          <h3 class="ref-header">📖 Referencia de Porciones</h3>
+          <div class="ref-accordion">
+            <!-- Carb equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_carb')">
+                <span>🌾 Carbohidratos</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_carb">
+                <ul class="ref-list">
+                  <li>1/2 marraqueta o 1 pan pita</li>
+                  <li>2 rebanadas pan de molde</li>
+                  <li>3/4 taza arroz, pastas o quínoa</li>
+                  <li>3 cucharadas avena o granola</li>
+                  <li>1 papa mediana (tamaño huevo)</li>
+                  <li>5 galletas de agua o salvado</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('carb')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+
+            <!-- Fruit equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_fruit')">
+                <span>🍎 Frutas</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_fruit">
+                <ul class="ref-list">
+                  <li>1 manzana o 1 pera mediana</li>
+                  <li>1 taza de frutillas, frambuesas o arándanos</li>
+                  <li>1/2 plátano o 1 naranja</li>
+                  <li>15 cerezas o 10 uvas</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('fruit')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+
+            <!-- Veg equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_veg')">
+                <span>🥗 Verduras</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_veg">
+                <ul class="ref-list">
+                  <li>Consumo libre: lechuga, acelga, pepino, espinaca...</li>
+                  <li>1 tomate mediano o 1 taza de brócoli/coliflor</li>
+                  <li>1 taza de zanahoria picada o rallada</li>
+                  <li>1/2 taza de porotos verdes o betarraga</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('veg')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+
+            <!-- Protein equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_meat')">
+                <span>🍗 Carnes y Legumbres</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_meat">
+                <ul class="ref-list">
+                  <li>1 huevo entero</li>
+                  <li>50 g pechuga pollo/pavo (6x6x1 cm)</li>
+                  <li>80 g pescado (salmón/atún/reineta)</li>
+                  <li>1/2 taza legumbres cocidas</li>
+                  <li>50 g tofu o 35 g tempeh</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('meat')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+
+            <!-- Milk equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_milk')">
+                <span>🥛 Lácteos</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_milk">
+                <ul class="ref-list">
+                  <li>1 taza leche descremada o cultivada</li>
+                  <li>1 yogurt descremado o proteico</li>
+                  <li>1 rebanada quesillo/queso fresco</li>
+                  <li>1 cucharada ricota light</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('milk')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+
+            <!-- Fat equivalents -->
+            <div class="ref-item">
+              <button class="ref-trigger" onclick="toggleAccordion('ref_fat')">
+                <span>🥑 Aceites y Grasas</span>
+                <span class="arrow-icon">▼</span>
+              </button>
+              <div class="ref-content" id="ref_fat">
+                <ul class="ref-list">
+                  <li>2 cdtas aceite (oliva preferentemente)</li>
+                  <li>2 cucharadas de palta molida</li>
+                  <li>30 g frutos secos (10 almendras / 5 nueces)</li>
+                  <li>8 aceitunas</li>
+                  <li>1 cucharada chía o linaza</li>
+                </ul>
+                <button class="more-details-btn" onclick="openDetailsModal('fat')">Ver más detalles 🔍</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- RIGHT WORKSPACE: Planner Grid -->
+    <section class="workspace">
+      <!-- Toggles and Planner Daily Grid -->
+      <div class="panel">
+        <div class="panel-title" style="margin-bottom:12px;">
+          <span>📅 Pizarra de Distribución Diaria</span>
+        </div>
+        
+        <!-- Toggle Pre/Post Workout stages -->
+        <div class="stage-toggles-container" style="margin-bottom:20px;">
+          <span class="toggles-title">Comidas Opcionales:</span>
+          <label class="toggle-pill" id="label_pre">
+            <input type="checkbox" id="toggle_pre" onchange="toggleStage('pre_workout')">
+            <span>Pre-Entreno</span>
+          </label>
+          <label class="toggle-pill" id="label_post">
+            <input type="checkbox" id="toggle_post" onchange="toggleStage('post_workout')">
+            <span>Post-Entreno</span>
+          </label>
+        </div>
+
+        <div class="day-slots-grid" id="daySlotsGrid">
+          <!-- Meal cards rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Hecho para planificar tu nutrición de forma flexible y saludable.</p>
+    <p style="margin-top: 8px; font-size: 0.8rem; opacity: 0.85;">Aplicación desarrollada por <a href="https://www.linkedin.com/in/diegovp2001/" target="_blank" rel="noopener noreferrer">Diego Vargas Palominos</a></p>
+  </footer>
+
+  <!-- Modal de Detalles de Porción -->
+  <div id="detailsModal" class="modal-backdrop" onclick="closeDetailsModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modalTitle">Detalles del Grupo</h3>
+        <button class="modal-close-btn" onclick="closeDetailsModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Content dynamic per group -->
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-action-btn" onclick="closeDetailsModal()">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para mover porciones (Mobile/Desktop accessibility) -->
+  <div id="movePortionModal" class="modal-backdrop" onclick="closeMovePortionModal(event)">
+    <div class="modal-card move-modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>
+          <span>↕️</span> Mover porción
+        </h3>
+        <button class="modal-close-btn" onclick="closeMovePortionModal()">&times;</button>
+      </div>
+      <div class="modal-body move-modal-body" id="movePortionModalBody">
+        <!-- Dynamic active meals list -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Constants
+    const TARGETS_STORAGE_KEY = 'nutri_diet_targets';
+    const DIARY_STORAGE_KEY = 'nutri_diet_diary';
+    const WATER_STORAGE_KEY = 'nutri_diet_water';
+
+    // Default Targets
+    const DEFAULT_TARGETS = {
+      target_carb: 7,
+      target_fruit: 3,
+      target_veg: 2,
+      target_meat: 8,
+      target_milk: 3,
+      target_fat: 3,
+      target_water: 2000
+    };
+
+    // Food Group Definitions
+    const FOOD_GROUPS = {
+      carb: { name: "Carbohidratos", emoji: "🌾", badgeClass: "badge-carb", color: "var(--color-carb)", btnClass: "btn-carb" },
+      fruit: { name: "Frutas", emoji: "🍎", badgeClass: "badge-fruit", color: "var(--color-fruit)", btnClass: "btn-fruit" },
+      veg: { name: "Verduras", emoji: "🥗", badgeClass: "badge-veg", color: "var(--color-veg)", btnClass: "btn-veg" },
+      meat: { name: "Carnes/Leg.", emoji: "🍗", badgeClass: "badge-meat", color: "var(--color-meat)", btnClass: "btn-meat" },
+      milk: { name: "Lácteos", emoji: "🥛", badgeClass: "badge-milk", color: "var(--color-milk)", btnClass: "btn-milk" },
+      fat: { name: "Grasas", emoji: "🥑", badgeClass: "badge-fat", color: "var(--color-fat)", btnClass: "btn-fat" }
+    };
+
+    // Stage Labels and Icons
+    const STAGE_META = {
+      pre_workout: { name: "Pre-Entreno ⚡", subtitle: "Energía rápida antes de entrenar" },
+      breakfast: { name: "Desayuno ☀️", subtitle: "Primera comida principal" },
+      colacion_am: { name: "Colación AM 🍎", subtitle: "Media mañana" },
+      almuerzo: { name: "Almuerzo 🍲", subtitle: "Comida fuerte de mediodía" },
+      colacion_pm: { name: "Colación PM 🥛", subtitle: "Media tarde" },
+      cena: { name: "Cena/Once 🌙", subtitle: "Última comida principal" },
+      post_workout: { name: "Post-Entreno 💪", subtitle: "Recuperación y síntesis proteica" }
+    };
+
+    // Detailed Portion Information for Modal Popup
+    const DETAILED_FOOD_INFO = {
+      carb: {
+        title: "🌾 Carbohidratos - Detalles",
+        content: `
+          <h4>Acompañamientos (Porción cocida)</h4>
+          <ul>
+            <li>3/4 taza de arroz, pastas, quínoa o cuscús</li>
+            <li>1 papa mediana (tamaño un huevo)</li>
+            <li>1 masa de fajita grande</li>
+            <li>1 taza de choclo cocido</li>
+          </ul>
+          <h4>Panes y Cereales</h4>
+          <ul>
+            <li>2 rebanadas de pan de molde (blanco o integral)</li>
+            <li>1 rebanada de pan de masa madre (50 gr)</li>
+            <li>1/2 marraqueta</li>
+            <li>1 pan pita</li>
+            <li>3 cucharadas de avena o granola</li>
+            <li>3/4 taza de cereales Tika</li>
+            <li>5 galletas de agua o salvado</li>
+            <li>1 barrita de cereal</li>
+            <li>2 paquetes de galletas Salmas</li>
+          </ul>
+        `
+      },
+      fruit: {
+        title: "🍎 Frutas - Detalles",
+        content: `
+          <h4>Equivalencias de Frutas (1 Porción)</h4>
+          <ul>
+            <li>1 manzana o 1 pera mediana</li>
+            <li>1 taza de frutillas, frambuesas o arándanos</li>
+            <li>1/2 plátano mediano</li>
+            <li>1 naranja o 1 durazno</li>
+            <li>3 ciruelas o 3 damascos</li>
+            <li>15 unidades de cerezas</li>
+            <li>10 unidades de uvas</li>
+            <li>1 taza de melón o sandía picada</li>
+            <li>1 rebanada de piña</li>
+            <li>2 tunas</li>
+            <li>1/3 chirimoya</li>
+          </ul>
+        `
+      },
+      veg: {
+        title: "🥗 Verduras - Detalles",
+        content: `
+          <h4>Verduras de Consumo Libre (Bajo aporte calórico)</h4>
+          <p style="margin-bottom: 12px; font-size: 0.88rem; color: var(--muted);">Puedes consumirlas libremente en tus platos principales:</p>
+          <ul>
+            <li>Lechuga, espinaca, acelga, rúcula, apio, pepino</li>
+            <li>Repollo, achicoria, berros</li>
+            <li>Cebolla, pimentón</li>
+            <li>Zapallito italiano, champiñones</li>
+          </ul>
+          <h4>Porciones Estándar de Verduras (1 Porción)</h4>
+          <ul>
+            <li>1 Tomate mediano</li>
+            <li>1 taza de brócoli o coliflor cocido</li>
+            <li>1 taza de zanahoria picada o rallada</li>
+            <li>1/2 taza de betarraga o berenjena</li>
+            <li>5 espárragos</li>
+            <li>1/2 taza de porotos verdes</li>
+            <li>1/2 taza de zapallo cocido</li>
+            <li>1 alcachofa pequeña</li>
+          </ul>
+        `
+      },
+      meat: {
+        title: "🍗 Carnes y Legumbres - Detalles",
+        content: `
+          <h4>Carnes Magras y Proteínas (50g crudo / 1 Porción)</h4>
+          <ul>
+            <li><strong>Huevo:</strong> 1 unidad entera</li>
+            <li><strong>Vacuno (trozo 6x6x1cm):</strong> Posta rosada, posta negra, pollo ganso, lomo liso, filete, carne molida tártaro</li>
+            <li><strong>Aves (trozo 6x6x1cm):</strong> Pechuga de pollo o pechuga de pavo</li>
+            <li><strong>Cerdo (trozo 6x6x1cm):</strong> Filete o lomo de cerdo</li>
+          </ul>
+          <h4>Pescados y Mariscos (80g crudo / 1 Porción)</h4>
+          <ul>
+            <li><strong>Pescados (10x6x1cm):</strong> Salmón, corvina, reineta, jurel, atún, congrio</li>
+            <li><strong>Mariscos:</strong> Camarones, choritos, jaiba, almejas</li>
+          </ul>
+          <h4>Fuentes Veganas</h4>
+          <ul>
+            <li>50 g de tofu firme</li>
+            <li>35 g de tempeh</li>
+            <li>50 g de seitán</li>
+            <li>2 cucharadas (25 g) de soya deshidratada</li>
+          </ul>
+          <h4>Legumbres (1/2 taza cocida)</h4>
+          <ul>
+            <li>Lentejas, porotos, garbanzos</li>
+            <li style="color: var(--color-carb); font-size: 0.82rem; list-style-type: none; padding-left: 0; margin-top: 4px;">⚠️ <em>Nota: 1 porción de legumbre aporta además 1/2 porción de carbohidrato extra.</em></li>
+          </ul>
+        `
+      },
+      milk: {
+        title: "🥛 Lácteos - Detalles",
+        content: `
+          <h4>Leches (1 taza / 200 ml)</h4>
+          <ul>
+            <li>Leche descremada o semidescremada</li>
+            <li>Leche cultivada descremada sin azúcar</li>
+            <li>Leche saborizada sin azúcar</li>
+          </ul>
+          <h4>Yogures (1 unidad)</h4>
+          <ul>
+            <li>Yogurt descremado tradicional</li>
+            <li>Yogurt proteico (Yogurt Protein)</li>
+          </ul>
+          <h4>Quesos y Ricota</h4>
+          <ul>
+            <li>1 rebanada (6x6x1 cm) de queso fresco o quesillo</li>
+            <li>1 cucharada de ricota light</li>
+          </ul>
+        `
+      },
+      fat: {
+        title: "🥑 Grasas Saludables - Detalles",
+        content: `
+          <h4>Aceites y Grasas</h4>
+          <ul>
+            <li>2 cucharaditas de aceite de oliva (u otro aceite vegetal)</li>
+            <li>2 cucharadas de palta molida</li>
+            <li>8 aceitunas</li>
+          </ul>
+          <h4>Frutos Secos (1 Porción o 30g)</h4>
+          <ul>
+            <li>10 almendras</li>
+            <li>5 nueces</li>
+            <li>20 maní (sin sal)</li>
+            <li>20 pistachos</li>
+          </ul>
+          <h4>Semillas</h4>
+          <ul>
+            <li>1 cucharada de chía, linaza o sésamo</li>
+          </ul>
+        `
+      }
+    };
+
+    // State Variables
+    let targets = { ...DEFAULT_TARGETS };
+    let activeStages = {
+      pre_workout: false,
+      breakfast: true,
+      colacion_am: true,
+      almuerzo: true,
+      colacion_pm: true,
+      cena: true,
+      post_workout: false
+    };
+    let diary = {
+      pre_workout: [],
+      breakfast: [],
+      colacion_am: [],
+      almuerzo: [],
+      colacion_pm: [],
+      cena: [],
+      post_workout: []
+    };
+    let exerciseHours = 0;
+
+    // Theme Switch Logic
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      localStorage.setItem('nutri_theme', targetTheme);
+      updateThemeIcon(targetTheme);
+      updateThemeColor(targetTheme);
+      renderScoreboard();
+    }
+
+    function updateThemeIcon(theme) {
+      const iconEl = document.getElementById('themeToggleIcon');
+      if (iconEl) {
+        iconEl.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+      }
+    }
+
+    function updateThemeColor(theme) {
+      const themeMeta = document.getElementById('themeColorMeta');
+      if (themeMeta) {
+        themeMeta.setAttribute('content', theme === 'dark' ? '#090d16' : '#6d28d9');
+      }
+    }
+
+    // Initialize Page
+    function init() {
+      // Setup theme
+      const savedTheme = localStorage.getItem('nutri_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+      updateThemeColor(savedTheme);
+
+      // Load saved patient name
+      const savedName = localStorage.getItem('nutri_diet_patient_name') || '';
+      document.getElementById('patientNameInput').value = savedName;
+      updatePatientName(savedName);
+
+      loadTargets();
+      loadDiary();
+      loadWater();
+      renderWaterDisplay();
+      
+      // Default to targets tab in sidebar
+      switchSidebarTab('targets');
+
+      renderScoreboard();
+      renderDiaryGrid();
+
+      // Set current date for printing
+      const dateEl = document.getElementById('printDate');
+      if (dateEl) {
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateEl.textContent = today.toLocaleDateString('es-ES', options);
+      }
+    }
+
+    function registerServiceWorker() {
+      if (!('serviceWorker' in navigator) || window.location.protocol === 'file:') return;
+
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    // GENERALIZATION PATIENT NAME LOGIC
+    function updatePatientName(name) {
+      localStorage.setItem('nutri_diet_patient_name', name);
+      const printNameEl = document.getElementById('printPatientName');
+      if (printNameEl) {
+        printNameEl.textContent = name || '____________________';
+      }
+    }
+
+    // SIDEBAR TABS LOGIC
+    function switchSidebarTab(tabId) {
+      // Deactivate all tab buttons
+      document.querySelectorAll('.sidebar-tab-btn').forEach(btn => btn.classList.remove('active'));
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      // Find the tab button clicked and activate it
+      const tabButton = Array.from(document.querySelectorAll('.sidebar-tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+      if (tabButton) tabButton.classList.add('active');
+
+      // Show selected tab content
+      const tabContent = document.getElementById(`tab_${tabId}`);
+      if (tabContent) tabContent.classList.add('active');
+    }
+
+    // TARGET CONTROL LOGIC
+    function loadTargets() {
+      let saved = localStorage.getItem(TARGETS_STORAGE_KEY);
+      if (saved) {
+        targets = { ...DEFAULT_TARGETS, ...JSON.parse(saved) };
+      }
+      for (const [id, val] of Object.entries(targets)) {
+        const input = document.getElementById(id);
+        if (input) input.value = val;
+      }
+    }
+
+    // Save Targets and triggers update to scoreboard and water displays
+    function saveTargets() {
+      targets = {
+        target_carb: parseInt(document.getElementById('target_carb').value) || 0,
+        target_fruit: parseInt(document.getElementById('target_fruit').value) || 0,
+        target_veg: parseInt(document.getElementById('target_veg').value) || 0,
+        target_meat: parseInt(document.getElementById('target_meat').value) || 0,
+        target_milk: parseInt(document.getElementById('target_milk').value) || 0,
+        target_fat: parseInt(document.getElementById('target_fat').value) || 0,
+        target_water: parseInt(document.getElementById('target_water').value) || 2000
+      };
+      localStorage.setItem(TARGETS_STORAGE_KEY, JSON.stringify(targets));
+      showAutosaveBadge();
+      renderScoreboard();
+      updateWaterTarget();
+    }
+
+    function increment(inputId) {
+      const input = document.getElementById(inputId);
+      const val = parseInt(input.value) || 0;
+      if (val < 30) {
+        input.value = val + 1;
+        saveTargets();
+      }
+    }
+
+    function decrement(inputId) {
+      const input = document.getElementById(inputId);
+      const val = parseInt(input.value) || 0;
+      if (val > 0) {
+        input.value = val - 1;
+        saveTargets();
+      }
+    }
+
+    function incrementStep(inputId, step) {
+      const input = document.getElementById(inputId);
+      input.value = (parseInt(input.value) || 0) + step;
+      saveTargets();
+    }
+
+    function decrementStep(inputId, step) {
+      const input = document.getElementById(inputId);
+      const val = parseInt(input.value) || 0;
+      if (val > step) {
+        input.value = val - step;
+        saveTargets();
+      }
+    }
+
+    // Dynamic Save notification badge
+    function showAutosaveBadge() {
+      const badge = document.getElementById('autosaveBadge');
+      badge.classList.add('visible');
+      setTimeout(() => badge.classList.remove('visible'), 1200);
+    }
+
+    // DIARY LOGIC
+    function loadDiary() {
+      let saved = localStorage.getItem(DIARY_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        diary = parsed.diary || diary;
+        activeStages = parsed.activeStages || activeStages;
+      }
+      
+      // Update check states of optional stage checkboxes
+      document.getElementById('toggle_pre').checked = activeStages.pre_workout;
+      document.getElementById('toggle_post').checked = activeStages.post_workout;
+      
+      updateStagePillClass('pre_workout', activeStages.pre_workout);
+      updateStagePillClass('post_workout', activeStages.post_workout);
+    }
+
+    function saveDiary() {
+      localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify({
+        diary,
+        activeStages
+      }));
+      renderScoreboard();
+    }
+
+    // Toggle Stage
+    function toggleStage(stageId) {
+      activeStages[stageId] = !activeStages[stageId];
+      updateStagePillClass(stageId, activeStages[stageId]);
+      saveDiary();
+      renderDiaryGrid();
+    }
+
+    function updateStagePillClass(stageId, isActive) {
+      const pill = document.getElementById(stageId === 'pre_workout' ? 'label_pre' : 'label_post');
+      if (isActive) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    }
+
+    function addPortion(stageId, type) {
+      const portion = {
+        id: 'port_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        type: type,
+        qty: 1,
+        note: ""
+      };
+      diary[stageId].push(portion);
+      saveDiary();
+      renderDiaryGrid();
+    }
+
+    function deletePortion(stageId, portionId) {
+      diary[stageId] = diary[stageId].filter(p => p.id !== portionId);
+      saveDiary();
+      renderDiaryGrid();
+    }
+
+    function updatePortionNote(stageId, portionId, noteText) {
+      const portion = diary[stageId].find(p => p.id === portionId);
+      if (portion) {
+        portion.note = noteText;
+        saveDiary();
+      }
+    }
+
+    // Allows updates of portion quantities
+    function updatePortionQty(stageId, portionId, qtyValue) {
+      const portion = diary[stageId].find(p => p.id === portionId);
+      if (portion) {
+        let val = parseFloat(qtyValue);
+        if (isNaN(val) || val <= 0) val = 1;
+        portion.qty = val;
+        saveDiary();
+      }
+    }
+
+    function toggleAddMenu(stageId) {
+      const menu = document.getElementById(`add_menu_${stageId}`);
+      const isOpen = menu.classList.contains('open');
+      
+      // Close all menus
+      document.querySelectorAll('.add-menu').forEach(m => m.classList.remove('open'));
+      
+      if (!isOpen) {
+        menu.classList.add('open');
+      }
+    }
+
+    // DRAG AND DROP HANDLERS
+    let dragSourceStage = null;
+    let dragSourceIndex = null;
+
+    function handleDragStart(e, stageId, index) {
+      dragSourceStage = stageId;
+      dragSourceIndex = index;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', diary[stageId][index].id);
+      
+      e.target.classList.add('dragging');
+      // Add slight transparent style to element
+      setTimeout(() => e.target.style.opacity = '0.4', 0);
+    }
+
+    function handleDragEnd(e) {
+      e.target.style.opacity = '1';
+      e.target.classList.remove('dragging');
+      dragSourceStage = null;
+      dragSourceIndex = null;
+    }
+
+    function handleDragOver(e, targetStageId) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const card = document.getElementById(`card_${targetStageId}`);
+      if (card) card.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e, targetStageId) {
+      const card = document.getElementById(`card_${targetStageId}`);
+      if (card) card.classList.remove('drag-over');
+    }
+
+    function handleDrop(e, targetStageId) {
+      e.preventDefault();
+      const card = document.getElementById(`card_${targetStageId}`);
+      if (card) card.classList.remove('drag-over');
+
+      if (dragSourceStage && dragSourceStage !== targetStageId) {
+        // Move portion block between stages
+        const portion = diary[dragSourceStage][dragSourceIndex];
+        
+        // Remove from source
+        diary[dragSourceStage].splice(dragSourceIndex, 1);
+        // Add to target
+        diary[targetStageId].push(portion);
+        
+        saveDiary();
+        renderDiaryGrid();
+      }
+    }
+
+    // RENDERING DAILY PIZARRA
+    function renderDiaryGrid() {
+      const grid = document.getElementById('daySlotsGrid');
+      grid.innerHTML = '';
+
+      const stagesOrdered = [
+        'pre_workout', 'breakfast', 'colacion_am', 'almuerzo',
+        'colacion_pm', 'cena', 'post_workout'
+      ];
+
+      stagesOrdered.forEach(stageId => {
+        if (!activeStages[stageId]) return;
+
+        const meta = STAGE_META[stageId];
+        const portions = diary[stageId] || [];
+
+        const totalMealPortions = portions.reduce((sum, p) => sum + ((p.qty !== undefined && !isNaN(parseFloat(p.qty))) ? parseFloat(p.qty) : 1), 0);
+
+        const cardHTML = `
+          <div class="meal-slot-card" id="card_${stageId}"
+               ondragover="handleDragOver(event, '${stageId}')"
+               ondragleave="handleDragLeave(event, '${stageId}')"
+               ondrop="handleDrop(event, '${stageId}')">
+            
+            <div>
+              <div class="meal-header">
+                <span class="meal-title">${meta.name}</span>
+                <span class="meal-meta" id="count_${stageId}">${totalMealPortions} porc.</span>
+              </div>
+              
+              <div class="portion-container" id="container_${stageId}">
+                ${portions.map((portion, idx) => {
+                  const grp = FOOD_GROUPS[portion.type];
+                  const qtyVal = portion.qty !== undefined ? portion.qty : 1;
+                  return `
+                    <div class="portion-badge ${grp.badgeClass}" 
+                         draggable="true" 
+                         ondragstart="handleDragStart(event, '${stageId}', ${idx})"
+                         ondragend="handleDragEnd(event)">
+                      <div class="badge-left">
+                        <button type="button" class="move-badge-handle" title="Mover o reordenar porción" aria-label="Mover o reordenar ${grp.name}" onclick="showMoveBadgeMenu('${stageId}', ${idx}, event)">${grp.emoji}</button>
+                        <div class="badge-qty-container">
+                          <input type="number" class="portion-qty-input" 
+                                 min="0.5" max="10" step="0.5" 
+                                 value="${qtyVal}" 
+                                 onchange="updatePortionQty('${stageId}', '${portion.id}', this.value)"
+                                 onclick="event.stopPropagation()"
+                                 draggable="false">
+                          <span>x</span>
+                        </div>
+                        <input type="text" class="portion-note-input" 
+                               placeholder="Ej: ${getPlaceholderByGroup(portion.type)}"
+                               value="${portion.note || ''}"
+                               onchange="updatePortionNote('${stageId}', '${portion.id}', this.value)"
+                               draggable="false"
+                               onclick="event.stopPropagation()">
+                      </div>
+                      <button class="delete-portion-btn" onclick="deletePortion('${stageId}', '${portion.id}')" title="Eliminar">&times;</button>
+                    </div>
+                  `;
+                }).join('')}
+                ${portions.length === 0 ? '<div class="empty-drop-zone">Añade porciones con el botón "+" o arrástralas desde otra comida</div>' : ''}
+              </div>
+            </div>
+
+            <!-- Footer area: Add buttons -->
+            <div class="add-portion-area">
+              <div class="add-menu" id="add_menu_${stageId}">
+                ${Object.entries(FOOD_GROUPS).map(([key, grp]) => `
+                  <button class="add-menu-btn ${grp.btnClass}" onclick="addPortion('${stageId}', '${key}')">
+                    <span>${grp.emoji}</span>
+                    <span>${grp.name.split('/')[0]}</span>
+                  </button>
+                `).join('')}
+              </div>
+              <button class="add-portion-btn" onclick="toggleAddMenu('${stageId}')">
+                <span>➕</span> Añadir porción
+              </button>
+            </div>
+
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+
+    }
+
+    function getPlaceholderByGroup(type) {
+      if (type === 'carb') return '1/2 marraqueta';
+      if (type === 'fruit') return '1 manzana';
+      if (type === 'veg') return '1 tomate';
+      if (type === 'meat') return '1 huevo';
+      if (type === 'milk') return '1 yogurt protein';
+      if (type === 'fat') return '2 cdas palta';
+      return '';
+    }
+
+    // SCOREBOARD & DYNAMIC COUNTING
+    function renderScoreboard() {
+      const actuals = { carb: 0, fruit: 0, veg: 0, meat: 0, milk: 0, fat: 0 };
+      
+      Object.keys(diary).forEach(stageId => {
+        if (activeStages[stageId]) {
+          diary[stageId].forEach(p => {
+            if (actuals[p.type] !== undefined) {
+              const qtyVal = (p.qty !== undefined && !isNaN(parseFloat(p.qty))) ? parseFloat(p.qty) : 1;
+              actuals[p.type] += qtyVal;
+            }
+          });
+        }
+      });
+
+      const scoreboard = document.getElementById('scoreboardGrid');
+      scoreboard.innerHTML = '';
+
+      const targetMap = {
+        carb: targets.target_carb,
+        fruit: targets.target_fruit,
+        veg: targets.target_veg,
+        meat: targets.target_meat,
+        milk: targets.target_milk,
+        fat: targets.target_fat
+      };
+
+      // Check if all active targets are met
+      let hasTargets = Object.values(targetMap).some(tgt => tgt > 0);
+      let allCompleted = hasTargets && Object.entries(targetMap).every(([key, tgt]) => {
+        if (tgt === 0) return true;
+        return actuals[key] === tgt;
+      });
+
+      if (allCompleted) {
+        const celebrationHTML = `
+          <div class="all-completed-alert">
+            🎉 ¡Meta diaria completada al 100%! 🌟
+          </div>
+        `;
+        scoreboard.insertAdjacentHTML('beforeend', celebrationHTML);
+      }
+
+      Object.entries(FOOD_GROUPS).forEach(([key, grp]) => {
+        const actual = actuals[key];
+        const target = targetMap[key];
+        
+        let pct = target > 0 ? (actual / target) * 100 : 0;
+        if (pct > 100) pct = 100;
+
+        let badgeText = '';
+        let badgeClass = '';
+        const isCompleted = actual === target;
+
+        if (actual < target) {
+          const diff = (target - actual) % 1 === 0 ? (target - actual) : (target - actual).toFixed(1);
+          badgeText = `Falta ${diff}`;
+          badgeClass = 'badge-status-lack';
+        } else if (actual === target) {
+          badgeText = 'Cumplido';
+          badgeClass = 'badge-status-ok';
+        } else {
+          const diff = (actual - target) % 1 === 0 ? (actual - target) : (actual - target).toFixed(1);
+          badgeText = `Exceso +${diff}`;
+          badgeClass = 'badge-status-over';
+        }
+
+        const actualStr = actual % 1 === 0 ? actual : actual.toFixed(1);
+        const rowClass = isCompleted ? 'score-row completed' : 'score-row';
+
+        const rowHTML = `
+          <div class="${rowClass}">
+            <div class="score-row-top">
+              <div class="score-label-info">
+                <span>${grp.emoji}</span>
+                <span>${grp.name}</span>
+              </div>
+              <div class="score-meta-info">
+                <div class="score-counts">
+                  <span>${actualStr}</span> / <span style="color: var(--muted); font-size: 0.82rem; font-weight: 600;">${target}</span>
+                </div>
+                <div class="score-status-badge ${badgeClass}">
+                  ${badgeText}
+                </div>
+              </div>
+            </div>
+            
+            <div class="score-progress-bar-container">
+              <div class="score-progress-bar" 
+                   style="width: ${pct}%; background-color: ${grp.color};">
+              </div>
+            </div>
+          </div>
+        `;
+        scoreboard.insertAdjacentHTML('beforeend', rowHTML);
+      });
+    }
+
+    // WATER / HYDROLOGY CALCULATIONS
+    function loadWater() {
+      let saved = localStorage.getItem(WATER_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        exerciseHours = parsed.exerciseHours || 0;
+        document.getElementById('workoutHours').value = exerciseHours;
+      }
+    }
+
+    function saveWater() {
+      localStorage.setItem(WATER_STORAGE_KEY, JSON.stringify({
+        exerciseHours
+      }));
+      renderWaterDisplay();
+    }
+
+    function updateWaterTarget() {
+      exerciseHours = parseFloat(document.getElementById('workoutHours').value) || 0;
+      saveWater();
+    }
+
+    function renderWaterDisplay() {
+      const calcTarget = targets.target_water + (exerciseHours * 300);
+      
+      const valDisplay = document.getElementById('waterValue');
+      const detailDisplay = document.getElementById('waterDetail');
+      
+      if (valDisplay) {
+        valDisplay.textContent = `${calcTarget} ml`;
+      }
+      
+      if (detailDisplay) {
+        detailDisplay.textContent = `Recomendación: ${targets.target_water} ml base + ${exerciseHours * 300} ml por ejercicio`;
+      }
+    }
+
+    // ACCORDION REFERENCE LOGIC
+    function toggleAccordion(contentId) {
+      const content = document.getElementById(contentId);
+      const trigger = content.previousElementSibling;
+      const isOpen = content.classList.contains('open');
+      
+      document.querySelectorAll('.ref-content').forEach(el => {
+        el.classList.remove('open');
+        el.previousElementSibling.classList.remove('active');
+      });
+
+      if (!isOpen) {
+        content.classList.add('open');
+        trigger.classList.add('active');
+      } else {
+        content.classList.remove('open');
+        trigger.classList.remove('active');
+      }
+    }
+
+    // MODAL POPUP LOGIC
+    function openDetailsModal(groupKey) {
+      const data = DETAILED_FOOD_INFO[groupKey];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerHTML = data.title;
+      document.getElementById('modalBody').innerHTML = data.content;
+      document.getElementById('detailsModal').classList.add('open');
+    }
+
+    function closeDetailsModal(event) {
+      if (event && event.target !== document.getElementById('detailsModal')) return;
+      document.getElementById('detailsModal').classList.remove('open');
+    }
+
+    // MOVE PORTION LOGIC (TOUCH-FRIENDLY FALLBACK)
+    let portionToMove = null;
+    let addMenuDismissBound = false;
+
+    function setupAddMenuDismiss() {
+      if (addMenuDismissBound) return;
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.add-portion-area')) {
+          document.querySelectorAll('.add-menu').forEach(m => m.classList.remove('open'));
+        }
+      });
+      addMenuDismissBound = true;
+    }
+
+    function showMoveBadgeMenu(stageId, idx, event) {
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+      portionToMove = { stageId, index: idx };
+      
+      const modal = document.getElementById('movePortionModal');
+      const body = document.getElementById('movePortionModalBody');
+      body.innerHTML = '';
+      const currentPortions = diary[stageId] || [];
+      const sourceMeta = STAGE_META[stageId];
+
+      const orderSection = document.createElement('div');
+      orderSection.innerHTML = `
+        <div class="move-section-title">Orden en ${sourceMeta.name}</div>
+        <div class="move-actions-row">
+          <button class="move-action-btn" ${idx === 0 ? 'disabled' : ''} onclick="executeReorderPortion(-1)">
+            <span>↑</span> Subir
+          </button>
+          <button class="move-action-btn" ${idx >= currentPortions.length - 1 ? 'disabled' : ''} onclick="executeReorderPortion(1)">
+            <span>↓</span> Bajar
+          </button>
+        </div>
+      `;
+      body.appendChild(orderSection);
+
+      const targetSection = document.createElement('div');
+      targetSection.innerHTML = '<div class="move-section-title">Mover a otra comida</div>';
+      const targetList = document.createElement('div');
+      targetList.className = 'move-target-list';
+      
+      const stagesOrdered = [
+        'pre_workout', 'breakfast', 'colacion_am', 'almuerzo',
+        'colacion_pm', 'cena', 'post_workout'
+      ];
+      
+      stagesOrdered.forEach(sId => {
+        if (!activeStages[sId]) return;
+        if (sId === stageId) return;
+        
+        const meta = STAGE_META[sId];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'move-target-btn';
+        
+        btn.innerHTML = `<span>${meta.name}</span><span>→</span>`;
+        btn.onclick = () => {
+          executeMovePortion(sId);
+        };
+        targetList.appendChild(btn);
+      });
+      
+      if (targetList.children.length === 0) {
+        targetList.innerHTML = '<p class="move-empty-message">No hay otras comidas activas.</p>';
+      }
+
+      targetSection.appendChild(targetList);
+      body.appendChild(targetSection);
+      
+      modal.classList.add('open');
+    }
+
+    function closeMovePortionModal(event) {
+      if (event && event.target !== document.getElementById('movePortionModal')) return;
+      document.getElementById('movePortionModal').classList.remove('open');
+      portionToMove = null;
+    }
+
+    function executeReorderPortion(direction) {
+      if (!portionToMove) return;
+      const { stageId, index } = portionToMove;
+      const portions = diary[stageId] || [];
+      const targetIndex = index + direction;
+
+      if (targetIndex < 0 || targetIndex >= portions.length) return;
+
+      const [portion] = portions.splice(index, 1);
+      portions.splice(targetIndex, 0, portion);
+      diary[stageId] = portions;
+
+      saveDiary();
+      renderDiaryGrid();
+      closeMovePortionModal();
+    }
+
+    function executeMovePortion(targetStageId) {
+      if (!portionToMove) return;
+      const { stageId, index } = portionToMove;
+      
+      const portion = diary[stageId][index];
+      diary[stageId].splice(index, 1);
+      diary[targetStageId].push(portion);
+      
+      saveDiary();
+      renderDiaryGrid();
+      
+      closeMovePortionModal();
+    }
+
+    // Init on load
+    setupAddMenuDismiss();
+    init();
+    registerServiceWorker();
+  </script>
+</body>
+</html>
