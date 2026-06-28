@@ -8,7 +8,7 @@ Para hosting estatico, configurar `public/` como directorio de publicacion. La e
 
 - Repositorio remoto: `https://github.com/DiegoVP2001/pauta-clara`
 - Rama principal: `main`
-- Commit publicado mas reciente: `f61d5b1` (`Update mobile install publication notes`)
+- Ultimo cambio funcional de la app: `53588a7` (`Remove install fallback action button`)
 - Estado local verificado: `main` alineada con `origin/main`, sin cambios pendientes.
 - Service worker publico: `pauta-clara-public-v4`.
 - Comportamiento inicial publico: navegadores nuevos parten con objetivos alimentarios en `0` y agua base en `2000 ml`.
@@ -64,7 +64,7 @@ Abrir `http://127.0.0.1:4173/`. En hosting estatico, la app debe abrirse desde l
 Despues de cada push, esperar el deploy automatico de Vercel y abrir la URL publica con un cache-buster, por ejemplo:
 
 ```text
-?v=f61d5b1
+?v=53588a7
 ```
 
 Para simular usuario nuevo, usar modo incognito o borrar datos del sitio. En Android/Chrome, el aviso debe indicar abrir el menu `...` y elegir `Instalar app` o `Agregar a pantalla principal`; en iPhone/Safari, debe indicar `Compartir` y `Agregar a pantalla de inicio`.
