@@ -4,15 +4,31 @@ La version publica minima esta preparada en `public/` y publicada en el reposito
 
 Para hosting estatico, configurar `public/` como directorio de publicacion. La entrada publica es `public/index.html`.
 
+URL publica principal: `https://pautaclara.cl`.
+URL tecnica de Vercel: `https://pauta-clara-beryl.vercel.app/`.
+
 ## Estado de publicacion
 
 - Repositorio remoto: `https://github.com/DiegoVP2001/pauta-clara`
 - Rama principal: `main`
-- Ultimo cambio funcional de la app: `53588a7` (`Remove install fallback action button`)
-- Estado local verificado: `main` alineada con `origin/main`, sin cambios pendientes.
-- Service worker publico: `pauta-clara-public-v4`.
+- URL publica principal: `https://pautaclara.cl`
+- URL tecnica de Vercel: `https://pauta-clara-beryl.vercel.app/`
+- Ultimo cambio funcional de la app: `07ae62e` (`Add footer feedback link`)
+- Estado GitHub verificado: `main` actualizado en `origin/main` con el footer de feedback publicado.
+- Service worker publico: `pauta-clara-public-v5`.
 - Comportamiento inicial publico: navegadores nuevos parten con objetivos alimentarios en `0` y agua base en `2000 ml`.
 - Instalacion movil: aviso informativo en celular con instrucciones para Android/Chrome e iPhone/Safari; se puede cerrar con la `x` y queda guardado localmente.
+- Feedback: el footer publico enlaza a `https://forms.gle/z1bS2gapJonhTpSv9` para canalizar bugs, ideas y mejoras.
+
+## Dominio y DNS
+
+- Dominio: `pautaclara.cl`.
+- Registrador: NIC Chile.
+- DNS delegado a Vercel:
+  - `ns1.vercel-dns.com`
+  - `ns2.vercel-dns.com`
+- HTTPS: automatico por Vercel.
+- Verificacion realizada al 2026-06-28: `https://pautaclara.cl/?v=53588a7` responde `200 OK` y carga el HTML publico de Pauta Clara.
 
 ## Archivos publicables
 
@@ -64,7 +80,7 @@ Abrir `http://127.0.0.1:4173/`. En hosting estatico, la app debe abrirse desde l
 Despues de cada push, esperar el deploy automatico de Vercel y abrir la URL publica con un cache-buster, por ejemplo:
 
 ```text
-?v=53588a7
+https://pautaclara.cl/?v=07ae62e
 ```
 
 Para simular usuario nuevo, usar modo incognito o borrar datos del sitio. En Android/Chrome, el aviso debe indicar abrir el menu `...` y elegir `Instalar app` o `Agregar a pantalla principal`; en iPhone/Safari, debe indicar `Compartir` y `Agregar a pantalla de inicio`.
